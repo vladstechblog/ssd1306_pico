@@ -17,3 +17,16 @@ target_link_libraries(
   CppUTest
   CppUTestExt
 )
+
+add_executable(
+  clearDisplayTestRunner
+  clearDisplayTestRunner.cpp
+  I2CWriteSpy.c
+)
+
+target_include_directories(clearDisplayTestRunner PUBLIC include ${DRIVER_INCLUDE_DIR})
+target_link_libraries(
+  clearDisplayTestRunner
+  PUBLIC
+  CppUTest
+)
