@@ -16,4 +16,5 @@ void I2CWriteSpy_Create(void);
 void I2CWriteSpy_Destroy(void);
 command_t* I2CWriteSpy_GetBufferPtr(void);
 void I2CWriteSpy_SetExpectedBytes(command_t, command_t);
+int I2CWriteSpy_GetInvocationCounter(void);
 #endif  /* D_I2CWriteSpy_H */

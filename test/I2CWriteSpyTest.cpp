@@ -55,3 +55,21 @@ TEST(I2CWriteSpy, I2CWriteBlockingTestLengthMismatch){
   int return_value = i2c_write_blocking(mock_i2c_address, DISPLAY_I2C_ADDRESS, test_buffer, 5, false);
   LONGS_EQUAL(BUFFER_LENGTH_MISMATCH, return_value);
 }
+
+TEST(I2CWriteSpy, InvocationCounterClearedOnCreate){
+  LONGS_EQUAL(0, I2CWriteSpy_GetInvocationCounter());
+}
+
+TEST(I2CWriteSpy, InvocationCounterIcrementedOnInvocations){
+  int expected_invocations = 10;
+
+  I2CWriteSpy_SetExpectedBytes(control_byte, command_byte);
+
+  for (int current = 0; current < expected_invocations; current++){
+    SSD1306_displayPowerOn();    
+  }
+
+  LONGS_EQUAL(expected_invocations, I2CWriteSpy_GetInvocationCounter());
+}
+
+
