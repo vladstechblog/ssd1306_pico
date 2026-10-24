@@ -44,7 +44,6 @@ TEST(I2CWriteSpy, I2CWriteBlockingTestWithCorrectBufferValues){
 }
 
 TEST(I2CWriteSpy, I2CWriteBlockingTestWithValueMistmatch){
-  command_t test_buffer[] = {control_byte, command_byte};
   I2CWriteSpy_SetExpectedBytes(control_byte, 0xff);
   LONGS_EQUAL(BUFFER_VALUE_MISMATCH, SSD1306_displayPowerOn());
 }
