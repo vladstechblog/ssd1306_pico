@@ -16,17 +16,17 @@ int i2c_write_blocking(i2c_inst_t* i2c, uint8_t addr, const uint8_t* src, size_t
   return BUFFER_VALUE_MISMATCH;
 }
 
-void I2CWriteSpy_ResetBuffer(){
+static void reset_buffer(){
   expected_buffer[0] = 0xff;
   expected_buffer[1] = 0xff;
 }
 
-void reset_invodation_counter(void){ invocation_counter = 0; }
+static void reset_invodation_counter(void){ invocation_counter = 0; }
 
 int I2CWriteSpy_GetInvocationCounter(void){ return invocation_counter; }
 
 void I2CWriteSpy_Create(void){
-  I2CWriteSpy_ResetBuffer();
+  reset_buffer();
   reset_invodation_counter();
 }
 
