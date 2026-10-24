@@ -1,7 +1,7 @@
-add_library(displayLib STATIC SSD1306.c)
-target_include_directories(displayLib PUBLIC include)
+add_library(displayDriver STATIC SSD1306.c)
+target_include_directories(displayDriver PUBLIC include)
 target_link_libraries(
-  displayLib
+  displayDriver
   PUBLIC
   pico_stdlib
 )
