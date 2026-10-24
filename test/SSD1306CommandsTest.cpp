@@ -11,8 +11,6 @@ extern "C"
 #include "CppUTest/TestHarness.h"
 #include "CppUTestExt/Mocksupport.h"
 
-#define I2C_CHUNK_SIZE 2
-
 TEST_GROUP(SSD1306)
 {
   void setup(){

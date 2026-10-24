@@ -11,8 +11,6 @@ extern "C"
 #include "CppUTest/TestHarness.h"
 #include "CppUTestExt/Mocksupport.h"
 
-#define I2C_CHUNK_SIZE 2
-
 TEST_GROUP(Initialization){
   void record_i2c_write_blocking_expectation(const unsigned char* data, size_t length){
     mock().expectOneCall("i2c_write_blocking")
