@@ -3,6 +3,9 @@
 #include "hardware/i2c.h"
 #include "SSD1306.h"
 
+#define BUFFER_VALUE_MISMATCH -100
+#define BUFFER_LENGTH_MISMATCH -101
+
 /**********************************************************
  *
  * I2CWriteSpy is responsible for ...
@@ -12,5 +15,5 @@
 void I2CWriteSpy_Create(void);
 void I2CWriteSpy_Destroy(void);
 command_t* I2CWriteSpy_GetBufferPtr(void);
-
-#endif  /* D_FakeI2CWriteSpy_H */
+void I2CWriteSpy_SetExpectedBytes(command_t, command_t);
+#endif  /* D_I2CWriteSpy_H */

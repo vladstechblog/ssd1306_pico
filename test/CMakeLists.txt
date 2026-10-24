@@ -22,8 +22,8 @@ add_executable(
   clearDisplayTestRunner
   clearDisplayTestRunner.cpp
   I2CWriteSpy.c
+  "${DRIVER_SOURCE_DIR}/${DRIVER_SOURCES}"
 )
-
 target_include_directories(clearDisplayTestRunner PUBLIC include ${DRIVER_INCLUDE_DIR})
 target_link_libraries(
   clearDisplayTestRunner
