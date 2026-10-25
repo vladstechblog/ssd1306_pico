@@ -3,5 +3,6 @@ target_include_directories(displayDriver PUBLIC include)
 target_link_libraries(
   displayDriver
   PUBLIC
+  hardware_i2c
   pico_stdlib
 )
