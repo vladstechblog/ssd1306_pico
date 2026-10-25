@@ -234,3 +234,15 @@ int SSD1306_setColumnRange(setting_t start, setting_t end){
 
   return SSD1306_sendCommandWithTwoSettings(DISPLAY_CMD_SET_COLUMN_RANGE, start, end);
 }
+
+
+int SSD1306_clearDisplayMemory(void){
+  int display_total_bytes = DISPLAY_HEIGHT * DISPLAY_WIDTH;
+  int bytes_sent = 0;
+  
+  for(int current_byte = 0; current_byte < display_total_bytes; current_byte++){
+    bytes_sent += SSD1306_sendDataByte(0);
+  }
+
+  return bytes_sent;
+}

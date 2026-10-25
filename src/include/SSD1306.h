@@ -79,5 +79,6 @@ int SSD1306_setAddressModeToPage(void);
 int SSD1306_setPageStartAddress(setting_t);
 int SSD1306_setPageRange(setting_t start, setting_t end);
 int SSD1306_setColumnRange(setting_t start, setting_t end);
+int SSD1306_clearDisplayMemory(void);
 
 #endif  /* D_SSD1306_H */

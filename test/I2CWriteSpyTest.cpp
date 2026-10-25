@@ -70,5 +70,3 @@ TEST(I2CWriteSpy, InvocationCounterIcrementedOnInvocations){
 
   LONGS_EQUAL(expected_invocations, I2CWriteSpy_GetInvocationCounter());
 }
-
-
