@@ -237,7 +237,7 @@ int SSD1306_setColumnRange(setting_t start, setting_t end){
 
 
 int SSD1306_clearDisplayMemory(void){
-  int display_total_bytes = DISPLAY_HEIGHT * DISPLAY_WIDTH;
+  int display_total_bytes = ((DISPLAY_HEIGHT * DISPLAY_WIDTH)/8);
   int bytes_sent = 0;
   
   for(int current_byte = 0; current_byte < display_total_bytes; current_byte++){
