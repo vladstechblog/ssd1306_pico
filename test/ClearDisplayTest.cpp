@@ -4,6 +4,8 @@ extern "C"
 #include "SSD1306.h"
 }
 
+#define TOTAL_BYTES_FITS_ON_SCREEN ((DISPLAY_HEIGHT * DISPLAY_WIDTH)/8)
+
 #include "CppUTest/TestHarness.h"
 
 TEST_GROUP(DisplayReset){
@@ -22,15 +24,13 @@ TEST_GROUP(DisplayReset){
 };
 
 TEST(DisplayReset, ClearDisplayInvokesI2CWriteBlockingCorrectNumberOfTimes){
-  int expected_invocation = (DISPLAY_HEIGHT * DISPLAY_WIDTH);
   I2CWriteSpy_SetExpectedBytes(control_byte, value_byte);
   SSD1306_clearDisplayMemory();
 
-  LONGS_EQUAL(expected_invocation, I2CWriteSpy_GetInvocationCounter());
+  LONGS_EQUAL(TOTAL_BYTES_FITS_ON_SCREEN, I2CWriteSpy_GetInvocationCounter());
 }
 
 TEST(DisplayReset, ReturnsCorrectBytesSent){
-  int expected_bytes_sent = (DISPLAY_HEIGHT * DISPLAY_WIDTH) * I2C_CHUNK_SIZE;
   I2CWriteSpy_SetExpectedBytes(control_byte, value_byte);
-  LONGS_EQUAL(expected_bytes_sent, SSD1306_clearDisplayMemory());
+  LONGS_EQUAL(TOTAL_BYTES_FITS_ON_SCREEN * I2C_CHUNK_SIZE, SSD1306_clearDisplayMemory());
 }
