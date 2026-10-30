@@ -1,6 +1,8 @@
 #ifndef D_SSD1306_H
 #define D_SSD1306_H
 
+#include <stdbool.h>
+
 #define DISPLAY_HEIGHT 64
 #define DISPLAY_WIDTH 128
 #define DISPLAY_ROW_MAX (DISPLAY_HEIGHT -1)
