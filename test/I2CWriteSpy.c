@@ -32,6 +32,7 @@ void I2CWriteSpy_Create(void){
 }
 
 void I2CWriteSpy_Destroy(void){
+  callback = NULL;
 }
 
 void I2CWriteSpy_SetExpectedBytes(command_t control_byte, command_t command_byte){

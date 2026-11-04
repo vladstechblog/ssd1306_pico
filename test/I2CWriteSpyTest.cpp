@@ -85,3 +85,8 @@ TEST(UpdateValuesCallback, getCallBackRerturnsCorrectValue){
   LONGS_EQUAL(expected_callback, I2CWriteSpy_getCallbackPointer());
 }
 
+TEST(UpdateValuesCallback, DestroySetsCallbackToNull){
+  I2CWriteSpy_setCallbackPointer(expected_callback);
+  I2CWriteSpy_Destroy();
+  LONGS_EQUAL(0, I2CWriteSpy_getCallbackPointer());
+}
