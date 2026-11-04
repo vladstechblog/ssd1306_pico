@@ -31,7 +31,8 @@ void I2CWriteSpy_Create(void){
   reset_invodation_counter();
 }
 
-void I2CWriteSpy_Destroy(void){}
+void I2CWriteSpy_Destroy(void){
+}
 
 void I2CWriteSpy_SetExpectedBytes(command_t control_byte, command_t command_byte){
   expected_buffer[0] = control_byte;
@@ -42,7 +43,13 @@ command_t* I2CWriteSpy_GetBufferPtr(void){
   return expected_buffer;
 }
 
-
 SetExpectedBytesCallbackPtr I2CWriteSpy_getCallbackPointer(void){
   return callback; 
 }
+
+void I2CWriteSpy_setCallbackPointer(SetExpectedBytesCallbackPtr new_callback){
+  callback = new_callback;
+}
+
+
+

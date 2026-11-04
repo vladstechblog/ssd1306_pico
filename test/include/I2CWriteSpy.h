@@ -14,4 +14,5 @@ command_t* I2CWriteSpy_GetBufferPtr(void);
 void I2CWriteSpy_SetExpectedBytes(command_t, command_t);
 int I2CWriteSpy_GetInvocationCounter(void);
 SetExpectedBytesCallbackPtr I2CWriteSpy_getCallbackPointer(void);
+void I2CWriteSpy_setCallbackPointer(SetExpectedBytesCallbackPtr);
 #endif  /* D_I2CWriteSpy_H */

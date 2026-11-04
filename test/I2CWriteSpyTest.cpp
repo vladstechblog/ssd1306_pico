@@ -73,6 +73,7 @@ TEST(I2CWriteSpy, InvocationCounterIcrementedOnInvocations){
 
 
 TEST_GROUP(UpdateValuesCallback){
+  SetExpectedBytesCallbackPtr expected_callback = (SetExpectedBytesCallbackPtr) 0xcc;
   void setup(){}
 
   void teardown(){}
@@ -80,6 +81,7 @@ TEST_GROUP(UpdateValuesCallback){
 
 
 TEST(UpdateValuesCallback, getCallBackRerturnsCorrectValue){
-  LONGS_EQUAL(0xaa, I2CWriteSpy_getCallbackPointer());
+  I2CWriteSpy_setCallbackPointer(expected_callback);
+  LONGS_EQUAL(expected_callback, I2CWriteSpy_getCallbackPointer());
 }
 
