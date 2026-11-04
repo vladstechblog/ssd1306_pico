@@ -73,7 +73,7 @@ TEST(I2CWriteSpy, InvocationCounterIcrementedOnInvocations){
 
 
 TEST_GROUP(UpdateValuesCallback){
-  SetExpectedBytesCallbackPtr expected_callback = (SetExpectedBytesCallbackPtr) 0xcc;
+  SetExpectedBytesCallbackPtr fake_callback = (SetExpectedBytesCallbackPtr) 0xcc;
   void setup(){}
 
   void teardown(){}
@@ -81,12 +81,18 @@ TEST_GROUP(UpdateValuesCallback){
 
 
 TEST(UpdateValuesCallback, getCallBackRerturnsCorrectValue){
-  I2CWriteSpy_setCallbackPointer(expected_callback);
-  LONGS_EQUAL(expected_callback, I2CWriteSpy_getCallbackPointer());
+  I2CWriteSpy_setCallbackPointer(fake_callback);
+  LONGS_EQUAL(fake_callback, I2CWriteSpy_getCallbackPointer());
 }
 
 TEST(UpdateValuesCallback, DestroySetsCallbackToNull){
-  I2CWriteSpy_setCallbackPointer(expected_callback);
+  I2CWriteSpy_setCallbackPointer(fake_callback);
   I2CWriteSpy_Destroy();
+  LONGS_EQUAL(0, I2CWriteSpy_getCallbackPointer());
+}
+
+TEST(UpdateValuesCallback, CreateSetsCallbackToNull){
+  I2CWriteSpy_setCallbackPointer(fake_callback);
+  I2CWriteSpy_Create();
   LONGS_EQUAL(0, I2CWriteSpy_getCallbackPointer());
 }

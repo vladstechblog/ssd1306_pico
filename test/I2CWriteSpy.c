@@ -27,6 +27,7 @@ static void reset_invodation_counter(void){ invocation_counter = 0; }
 int I2CWriteSpy_GetInvocationCounter(void){ return invocation_counter; }
 
 void I2CWriteSpy_Create(void){
+  callback = NULL;
   reset_buffer();
   reset_invodation_counter();
 }
