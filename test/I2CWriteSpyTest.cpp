@@ -2,7 +2,11 @@ extern "C"
 {
 #include "I2CWriteSpy.h"
 #include "SSD1306.h"
-}
+
+void fakeCallback(data_t* test_data, size_t test_data_size){}
+
+
+} //end of extern "C"
 
 #include "CppUTest/TestHarness.h"
 
@@ -95,4 +99,9 @@ TEST(UpdateValuesCallback, CreateSetsCallbackToNull){
   I2CWriteSpy_setCallbackPointer(fake_callback);
   I2CWriteSpy_Create();
   LONGS_EQUAL(0, I2CWriteSpy_getCallbackPointer());
+}
+
+TEST(UpdateValuesCallback, setCallbackPointerSetsCorrectPointer){
+  I2CWriteSpy_setCallbackPointer(fakeCallback);
+  POINTERS_EQUAL(fakeCallback, I2CWriteSpy_getCallbackPointer());
 }

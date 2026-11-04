@@ -52,6 +52,3 @@ SetExpectedBytesCallbackPtr I2CWriteSpy_getCallbackPointer(void){
 void I2CWriteSpy_setCallbackPointer(SetExpectedBytesCallbackPtr new_callback){
   callback = new_callback;
 }
-
-
-
