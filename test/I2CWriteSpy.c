@@ -3,6 +3,7 @@
 
 static command_t expected_buffer[I2C_CHUNK_SIZE]; 
 static int invocation_counter = 0xff;
+static SetExpectedBytesCallbackPtr callback = (SetExpectedBytesCallbackPtr) 0xaa;
 
 int i2c_write_blocking(i2c_inst_t* i2c, uint8_t addr, const uint8_t* src, size_t len, bool nostop){
   if (len != I2C_CHUNK_SIZE)
@@ -39,4 +40,9 @@ void I2CWriteSpy_SetExpectedBytes(command_t control_byte, command_t command_byte
 
 command_t* I2CWriteSpy_GetBufferPtr(void){
   return expected_buffer;
+}
+
+
+SetExpectedBytesCallbackPtr I2CWriteSpy_getCallbackPointer(void){
+  return callback; 
 }

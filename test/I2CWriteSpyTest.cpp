@@ -70,3 +70,16 @@ TEST(I2CWriteSpy, InvocationCounterIcrementedOnInvocations){
 
   LONGS_EQUAL(expected_invocations, I2CWriteSpy_GetInvocationCounter());
 }
+
+
+TEST_GROUP(UpdateValuesCallback){
+  void setup(){}
+
+  void teardown(){}
+};
+
+
+TEST(UpdateValuesCallback, getCallBackRerturnsCorrectValue){
+  LONGS_EQUAL(0xaa, I2CWriteSpy_getCallbackPointer());
+}
+
