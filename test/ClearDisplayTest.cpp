@@ -24,13 +24,13 @@ TEST_GROUP(DisplayReset){
 };
 
 TEST(DisplayReset, ClearDisplayInvokesI2CWriteBlockingCorrectNumberOfTimes){
-  I2CWriteSpy_SetExpectedBytes(control_byte, value_byte);
+  I2CWriteSpy_SetExpectedI2CPayloadBytes(control_byte, value_byte);
   SSD1306_clearDisplayMemory();
 
   LONGS_EQUAL(TOTAL_BYTES_FITS_ON_SCREEN, I2CWriteSpy_GetInvocationCounter());
 }
 
 TEST(DisplayReset, ReturnsCorrectBytesSent){
-  I2CWriteSpy_SetExpectedBytes(control_byte, value_byte);
+  I2CWriteSpy_SetExpectedI2CPayloadBytes(control_byte, value_byte);
   LONGS_EQUAL(TOTAL_BYTES_FITS_ON_SCREEN * I2C_CHUNK_SIZE, SSD1306_clearDisplayMemory());
 }
