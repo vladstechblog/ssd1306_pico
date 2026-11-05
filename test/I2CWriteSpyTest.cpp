@@ -72,3 +72,34 @@ TEST(I2CWriteSpy, InvocationCounterIcrementedOnInvocations){
 
   LONGS_EQUAL(expected_invocations, I2CWriteSpy_GetInvocationCounter());
 }
+
+
+TEST_GROUP(MultibyteBuffer){
+  data_t fake_buffer[4] = {1,2,3,4};
+
+  void setFakeBuffer(){
+    I2CWriteSpy_SetExpectedBuffer(fake_buffer);
+  }
+
+  void setup(){
+    I2CWriteSpy_Create();
+  }
+  
+  void teardown(){
+  }
+};
+
+TEST(MultibyteBuffer, CreateSetExpectedBufferPointerToNull){
+  POINTERS_EQUAL(NULL, I2CWriteSpy_GetExpectedBuffer());
+}
+
+TEST(MultibyteBuffer, I2CWriteSpySetsCorrectExpectedBuffer){
+  setFakeBuffer();
+  POINTERS_EQUAL(fake_buffer, I2CWriteSpy_GetExpectedBuffer());
+}
+
+TEST(MultibyteBuffer, DestroySetsExpectedBufferToNull){
+  setFakeBuffer();
+  I2CWriteSpy_Destroy();
+  POINTERS_EQUAL(NULL, I2CWriteSpy_GetExpectedBuffer());
+}
