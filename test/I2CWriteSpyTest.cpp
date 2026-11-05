@@ -11,9 +11,12 @@ static void fakeCallback(){}
 
 static void testCallback(){
   callback_invocation_counter++;
-  data_t* next_bytes = I2CWriteSpy_GetBufferPtr();
-  next_bytes[0] = DISPLAY_CONTROL_DATA_BYTE;
-  next_bytes[1] = test_buffer[callback_invocation_counter];
+  
+  if(callback_invocation_counter < test_data_size){
+    data_t* next_bytes = I2CWriteSpy_GetBufferPtr();
+    next_bytes[0] = DISPLAY_CONTROL_DATA_BYTE;
+    next_bytes[1] = test_buffer[callback_invocation_counter];
+  }
 }
 
 i2c_inst_t* mock_i2c_address = (i2c_inst_t*)0xffffffff;
@@ -140,3 +143,15 @@ TEST(UpdateValuesCallback, CallbackIcrementsCallbackCounterAndSetsNextByte){
   BYTES_EQUAL(DISPLAY_CONTROL_DATA_BYTE, next_bytes[0]);
   BYTES_EQUAL(test_buffer[1], next_bytes[1]);
 }
+
+TEST(UpdateValuesCallback, CallbackDoesNoteSetValuesOnLastInvocation){
+  setupCallback(); 
+  for(int i = 0; i < test_data_size; i++){
+    i2c_write_blocking(mock_i2c_address, DISPLAY_I2C_ADDRESS, raw_payload, I2C_CHUNK_SIZE, false);
+  }
+
+  data_t* next_bytes = I2CWriteSpy_GetBufferPtr();
+  BYTES_EQUAL(DISPLAY_CONTROL_DATA_BYTE, next_bytes[0]);
+  BYTES_EQUAL(test_buffer[test_data_size - 1], next_bytes[1]);
+}
+
