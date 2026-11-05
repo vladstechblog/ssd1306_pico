@@ -9,11 +9,12 @@ int i2c_write_blocking(i2c_inst_t* i2c, uint8_t addr, const uint8_t* src, size_t
   if (len != I2C_CHUNK_SIZE)
     return BUFFER_LENGTH_MISMATCH;
    
-  if(callback != NULL)
-    callback();
-
   if(src[0] == expected_buffer[0] && src[1] == expected_buffer[1]){
     valid_invocation_counter++;
+    
+    if(callback != NULL)
+      callback();
+    
     return len;
   }
 

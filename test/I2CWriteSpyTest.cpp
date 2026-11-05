@@ -147,6 +147,7 @@ TEST(UpdateValuesCallback, CallbackIcrementsCallbackCounterAndSetsNextByte){
 TEST(UpdateValuesCallback, CallbackDoesNoteSetValuesOnLastInvocation){
   setupCallback(); 
   for(int i = 0; i < test_data_size; i++){
+    raw_payload[1] = test_buffer[i];
     i2c_write_blocking(mock_i2c_address, DISPLAY_I2C_ADDRESS, raw_payload, I2C_CHUNK_SIZE, false);
   }
 
@@ -154,4 +155,3 @@ TEST(UpdateValuesCallback, CallbackDoesNoteSetValuesOnLastInvocation){
   BYTES_EQUAL(DISPLAY_CONTROL_DATA_BYTE, next_bytes[0]);
   BYTES_EQUAL(test_buffer[test_data_size - 1], next_bytes[1]);
 }
-
