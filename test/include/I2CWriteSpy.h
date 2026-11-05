@@ -6,14 +6,10 @@
 #define BUFFER_VALUE_MISMATCH -100
 #define BUFFER_LENGTH_MISMATCH -101
 
-typedef void (*SetExpectedBytesCallbackPtr)();
-
 void I2CWriteSpy_Create(void);
 void I2CWriteSpy_Destroy(void);
 command_t* I2CWriteSpy_GetBufferPtr(void);
 void I2CWriteSpy_SetExpectedBytes(command_t, command_t);
 int I2CWriteSpy_GetInvocationCounter(void);
-SetExpectedBytesCallbackPtr I2CWriteSpy_getCallbackPointer(void);
-void I2CWriteSpy_setCallbackPointer(SetExpectedBytesCallbackPtr);
 
 #endif  /* I2CWriteSpy_H */

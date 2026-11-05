@@ -3,7 +3,6 @@
 
 static command_t expected_buffer[I2C_CHUNK_SIZE]; 
 static int valid_invocation_counter = 0xff;
-static SetExpectedBytesCallbackPtr callback = (SetExpectedBytesCallbackPtr) 0xaa;
 
 int i2c_write_blocking(i2c_inst_t* i2c, uint8_t addr, const uint8_t* src, size_t len, bool nostop){
   if (len != I2C_CHUNK_SIZE)
@@ -11,9 +10,6 @@ int i2c_write_blocking(i2c_inst_t* i2c, uint8_t addr, const uint8_t* src, size_t
    
   if(src[0] == expected_buffer[0] && src[1] == expected_buffer[1]){
     valid_invocation_counter++;
-    
-    if(callback != NULL)
-      callback();
     
     return len;
   }
@@ -31,13 +27,11 @@ static void reset_invodation_counter(void){ valid_invocation_counter = 0; }
 int I2CWriteSpy_GetInvocationCounter(void){ return valid_invocation_counter; }
 
 void I2CWriteSpy_Create(void){
-  callback = NULL;
   reset_buffer();
   reset_invodation_counter();
 }
 
 void I2CWriteSpy_Destroy(void){
-  callback = NULL;
 }
 
 void I2CWriteSpy_SetExpectedBytes(command_t control_byte, command_t command_byte){
@@ -47,12 +41,4 @@ void I2CWriteSpy_SetExpectedBytes(command_t control_byte, command_t command_byte
 
 command_t* I2CWriteSpy_GetBufferPtr(void){
   return expected_buffer;
-}
-
-SetExpectedBytesCallbackPtr I2CWriteSpy_getCallbackPointer(void){
-  return callback; 
-}
-
-void I2CWriteSpy_setCallbackPointer(SetExpectedBytesCallbackPtr new_callback){
-  callback = new_callback;
 }
