@@ -3,15 +3,26 @@ extern "C"
 #include "I2CWriteSpy.h"
 #include "SSD1306.h"
 
-void fakeCallback(data_t* test_data, size_t test_data_size){}
+static int callback_invocation_counter = 0;
+static const data_t test_buffer[] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08 }; 
+static int test_data_size = sizeof(test_buffer);
 
+static void fakeCallback(){}
+
+static void testCallback(){
+  callback_invocation_counter++;
+  data_t* next_bytes = I2CWriteSpy_GetBufferPtr();
+  next_bytes[0] = DISPLAY_CONTROL_DATA_BYTE;
+  next_bytes[1] = test_buffer[callback_invocation_counter];
+}
+
+i2c_inst_t* mock_i2c_address = (i2c_inst_t*)0xffffffff;
 
 } //end of extern "C"
 
 #include "CppUTest/TestHarness.h"
 
 TEST_GROUP(I2CWriteSpy){
-    i2c_inst_t* mock_i2c_address = (i2c_inst_t*)0xffffffff;
     command_t control_byte = DISPLAY_CONTROL_CMD_BYTE;
     command_t command_byte = DISPLAY_CMD_POWER_ON;
     
@@ -78,9 +89,14 @@ TEST(I2CWriteSpy, InvocationCounterIcrementedOnInvocations){
 
 TEST_GROUP(UpdateValuesCallback){
   SetExpectedBytesCallbackPtr fake_callback = (SetExpectedBytesCallbackPtr) 0xcc;
-  void setup(){}
+  void setup(){
+    callback_invocation_counter = 0;
+    I2CWriteSpy_Create();
+  }
 
-  void teardown(){}
+  void teardown(){
+    I2CWriteSpy_Destroy();
+  }
 };
 
 
@@ -104,4 +120,16 @@ TEST(UpdateValuesCallback, CreateSetsCallbackToNull){
 TEST(UpdateValuesCallback, setCallbackPointerSetsCorrectPointer){
   I2CWriteSpy_setCallbackPointer(fakeCallback);
   POINTERS_EQUAL(fakeCallback, I2CWriteSpy_getCallbackPointer());
+}
+
+TEST(UpdateValuesCallback, CallbackIcrementsCallbackCounterAndSetsNextByte){
+  I2CWriteSpy_setCallbackPointer(testCallback);
+  data_t payload[] = {DISPLAY_CONTROL_DATA_BYTE, test_buffer[0]}; 
+  I2CWriteSpy_SetExpectedBytes(DISPLAY_CONTROL_DATA_BYTE, test_buffer[0]);
+  i2c_write_blocking(mock_i2c_address, DISPLAY_I2C_ADDRESS, payload, I2C_CHUNK_SIZE, false);
+  data_t* next_bytes = I2CWriteSpy_GetBufferPtr();
+
+  LONGS_EQUAL(1, callback_invocation_counter);
+  BYTES_EQUAL(DISPLAY_CONTROL_DATA_BYTE, next_bytes[0]);
+  BYTES_EQUAL(test_buffer[1], next_bytes[1]);
 }
