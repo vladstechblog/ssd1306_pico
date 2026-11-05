@@ -2,7 +2,7 @@
 #include "I2CWriteSpy.h"
 
 static command_t expected_buffer[I2C_CHUNK_SIZE]; 
-static int invocation_counter = 0xff;
+static int valid_invocation_counter = 0xff;
 static SetExpectedBytesCallbackPtr callback = (SetExpectedBytesCallbackPtr) 0xaa;
 
 int i2c_write_blocking(i2c_inst_t* i2c, uint8_t addr, const uint8_t* src, size_t len, bool nostop){
@@ -10,7 +10,7 @@ int i2c_write_blocking(i2c_inst_t* i2c, uint8_t addr, const uint8_t* src, size_t
     return BUFFER_LENGTH_MISMATCH;
   
   if(src[0] == expected_buffer[0] && src[1] == expected_buffer[1]){
-    invocation_counter++;
+    valid_invocation_counter++;
     return len;
   }
 
@@ -22,9 +22,9 @@ static void reset_buffer(){
   expected_buffer[1] = 0xff;
 }
 
-static void reset_invodation_counter(void){ invocation_counter = 0; }
+static void reset_invodation_counter(void){ valid_invocation_counter = 0; }
 
-int I2CWriteSpy_GetInvocationCounter(void){ return invocation_counter; }
+int I2CWriteSpy_GetInvocationCounter(void){ return valid_invocation_counter; }
 
 void I2CWriteSpy_Create(void){
   callback = NULL;
