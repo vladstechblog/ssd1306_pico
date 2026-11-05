@@ -77,10 +77,16 @@ TEST(I2CWriteSpy, InvocationCounterIcrementedOnInvocations){
 TEST_GROUP(MultibyteBuffer){
   data_t fake_buffer[4] = {1,2,3,4};
   size_t fake_buffer_size = sizeof(fake_buffer);
-
+  data_t fake_payload[I2C_CHUNK_SIZE] = { DISPLAY_CONTROL_DATA_BYTE, fake_buffer[0]};
+  
   void setFakeBuffer(data_t* new_buffer, size_t new_size){
     I2CWriteSpy_SetExpectedBuffer(new_buffer);
     I2CWriteSpy_SetExpectedBufferSize(new_size);
+  }
+
+  void setFakePayload(){
+    setFakeBuffer(fake_buffer, fake_buffer_size);
+    I2CWriteSpy_SetExpectedI2CPayloadBytes(fake_payload[0], fake_payload[1]);
   }
 
   void setup(){
@@ -113,4 +119,31 @@ TEST(MultibyteBuffer, DestroySetsExpectedBufferToNullAndSizeToZero){
   I2CWriteSpy_Destroy();
   POINTERS_EQUAL(NULL, I2CWriteSpy_GetExpectedBuffer());
   LONGS_EQUAL(0, I2CWriteSpy_GetExpectedBufferSize());
+}
+
+TEST(MultibyteBuffer, I2CWriteSpyUpdatesExpectedI2CPayloadWhenExpectedBufferIsSet){
+  setFakePayload();
+  i2c_write_blocking(mock_i2c_address, DISPLAY_I2C_ADDRESS, fake_payload, I2C_CHUNK_SIZE, false);
+  data_t* expected_i2c_payload_ptr = I2CWriteSpy_GetExpectedI2CPayloadPointer();
+  BYTES_EQUAL(fake_buffer[1], expected_i2c_payload_ptr[1]);
+}
+
+TEST(MultibyteBuffer, PointerIsNotAdvancedOnExpectedBufferSizeOne){
+  setFakePayload();
+  I2CWriteSpy_SetExpectedBufferSize(1);
+  i2c_write_blocking(mock_i2c_address, DISPLAY_I2C_ADDRESS, fake_payload, I2C_CHUNK_SIZE, false);
+  data_t* expected_i2c_payload_ptr = I2CWriteSpy_GetExpectedI2CPayloadPointer();
+  BYTES_EQUAL(fake_buffer[0], expected_i2c_payload_ptr[1]);
+}
+
+TEST(MultibyteBuffer, ExpectedBytesAreCorrectAtTheEndOfTheBuffer){
+  setFakePayload();
+  
+  for(int i = 0; i < fake_buffer_size; i++){
+    fake_payload[1] = fake_buffer[i];
+    i2c_write_blocking(mock_i2c_address, DISPLAY_I2C_ADDRESS, fake_payload, I2C_CHUNK_SIZE, false);
+  }
+
+  data_t* expected_i2c_payload_ptr = I2CWriteSpy_GetExpectedI2CPayloadPointer();
+  BYTES_EQUAL(fake_buffer[fake_buffer_size-1], expected_i2c_payload_ptr[1]);
 }
