@@ -76,9 +76,11 @@ TEST(I2CWriteSpy, InvocationCounterIcrementedOnInvocations){
 
 TEST_GROUP(MultibyteBuffer){
   data_t fake_buffer[4] = {1,2,3,4};
+  size_t fake_buffer_size = sizeof(fake_buffer);
 
-  void setFakeBuffer(){
-    I2CWriteSpy_SetExpectedBuffer(fake_buffer);
+  void setFakeBuffer(data_t* new_buffer, size_t new_size){
+    I2CWriteSpy_SetExpectedBuffer(new_buffer);
+    I2CWriteSpy_SetExpectedBufferSize(new_size);
   }
 
   void setup(){
@@ -89,17 +91,26 @@ TEST_GROUP(MultibyteBuffer){
   }
 };
 
-TEST(MultibyteBuffer, CreateSetExpectedBufferPointerToNull){
+
+TEST(MultibyteBuffer, SetExpectedBufferSizeGetterAndSetter){
+  size_t expected_size = 5;
+  I2CWriteSpy_SetExpectedBufferSize(expected_size);
+  LONGS_EQUAL(expected_size, I2CWriteSpy_GetExpectedBufferSize());
+}
+
+TEST(MultibyteBuffer, CreateSetExpectedBufferPointerToNullAndSizeToZero){
   POINTERS_EQUAL(NULL, I2CWriteSpy_GetExpectedBuffer());
+  LONGS_EQUAL(0, I2CWriteSpy_GetExpectedBufferSize());
 }
 
 TEST(MultibyteBuffer, I2CWriteSpySetsCorrectExpectedBuffer){
-  setFakeBuffer();
+  setFakeBuffer(fake_buffer, fake_buffer_size);
   POINTERS_EQUAL(fake_buffer, I2CWriteSpy_GetExpectedBuffer());
 }
 
-TEST(MultibyteBuffer, DestroySetsExpectedBufferToNull){
-  setFakeBuffer();
+TEST(MultibyteBuffer, DestroySetsExpectedBufferToNullAndSizeToZero){
+  setFakeBuffer(fake_buffer, fake_buffer_size);
   I2CWriteSpy_Destroy();
   POINTERS_EQUAL(NULL, I2CWriteSpy_GetExpectedBuffer());
+  LONGS_EQUAL(0, I2CWriteSpy_GetExpectedBufferSize());
 }

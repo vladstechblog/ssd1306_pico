@@ -4,6 +4,7 @@
 static command_t expected_i2c_payload[I2C_CHUNK_SIZE]; 
 static int valid_invocation_counter = 0xff;
 static data_t* expected_buffer_ptr = (data_t*) 0xee;
+static size_t expected_buffer_size = 0;
 
 int i2c_write_blocking(i2c_inst_t* i2c, uint8_t addr, const uint8_t* src, size_t len, bool nostop){
   if (len != I2C_CHUNK_SIZE)
@@ -29,12 +30,14 @@ int I2CWriteSpy_GetInvocationCounter(void){ return valid_invocation_counter; }
 
 void I2CWriteSpy_Create(void){
   expected_buffer_ptr = NULL;
+  expected_buffer_size = 0;
   reset_buffer();
   reset_invodation_counter();
 }
 
 void I2CWriteSpy_Destroy(void){
   expected_buffer_ptr = NULL;
+  expected_buffer_size = 0;
 }
 
 void I2CWriteSpy_SetExpectedI2CPayloadBytes(command_t control_byte, command_t command_byte){
@@ -54,3 +57,9 @@ data_t* I2CWriteSpy_GetExpectedBuffer(void){
 void I2CWriteSpy_SetExpectedBuffer(data_t* new_buffer_pointer){
   expected_buffer_ptr = new_buffer_pointer;  
 }
+
+void I2CWriteSpy_SetExpectedBufferSize(size_t new_size){
+  expected_buffer_size = new_size;
+}
+
+size_t I2CWriteSpy_GetExpectedBufferSize(void){ return expected_buffer_size; }

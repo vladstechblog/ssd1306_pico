@@ -13,5 +13,7 @@ int I2CWriteSpy_GetInvocationCounter(void);
 data_t* I2CWriteSpy_GetExpectedI2CPayloadPointer(void);
 data_t* I2CWriteSpy_GetExpectedBuffer(void);
 void I2CWriteSpy_SetExpectedBuffer(data_t*);
+void I2CWriteSpy_SetExpectedBufferSize(size_t);
+size_t I2CWriteSpy_GetExpectedBufferSize(void);
 
 #endif  /* I2CWriteSpy_H */
