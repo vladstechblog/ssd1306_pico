@@ -246,3 +246,25 @@ int SSD1306_clearDisplayMemory(void){
 
   return bytes_sent;
 }
+
+static bool isDataSizeWithinLimits(unsigned int data_size){
+  if(data_size >= 1 && data_size <= DISPLAY_MAX_BYTES)
+    return true;
+
+  return false;
+}
+
+int SSD1306_sendDataBuffer(data_t* data_to_send, unsigned int data_size){
+  if(data_to_send == NULL)
+    return PICO_ERROR_INVALID_ARG;
+
+  if(!isDataSizeWithinLimits(data_size))
+    return PICO_ERROR_INVALID_ARG;
+
+  int bytes_sent = 0;
+  for(int data_index = 0; data_index < data_size; data_index++){
+    bytes_sent += SSD1306_sendDataByte(data_to_send[data_index]);
+  }
+
+  return bytes_sent;
+}

@@ -5,6 +5,7 @@
 
 #define DISPLAY_HEIGHT 64
 #define DISPLAY_WIDTH 128
+#define DISPLAY_MAX_BYTES ((DISPLAY_HEIGHT * DISPLAY_WIDTH)/8)
 #define DISPLAY_ROW_MAX (DISPLAY_HEIGHT -1)
 #define DISPLAY_I2C_ADDRESS 0x3C
 #define DISPLAY_CONTROL_CMD_BYTE 0x80
@@ -82,5 +83,6 @@ int SSD1306_setPageStartAddress(setting_t);
 int SSD1306_setPageRange(setting_t start, setting_t end);
 int SSD1306_setColumnRange(setting_t start, setting_t end);
 int SSD1306_clearDisplayMemory(void);
+int SSD1306_sendDataBuffer(data_t*, unsigned int);
 
 #endif  /* D_SSD1306_H */
