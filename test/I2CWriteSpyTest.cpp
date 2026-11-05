@@ -89,6 +89,14 @@ TEST(I2CWriteSpy, InvocationCounterIcrementedOnInvocations){
 
 TEST_GROUP(UpdateValuesCallback){
   SetExpectedBytesCallbackPtr fake_callback = (SetExpectedBytesCallbackPtr) 0xcc;
+  data_t raw_payload[I2C_CHUNK_SIZE] = {DISPLAY_CONTROL_DATA_BYTE, 0xff}; 
+
+  void setupCallback(){
+    I2CWriteSpy_setCallbackPointer(testCallback);
+    I2CWriteSpy_SetExpectedBytes(DISPLAY_CONTROL_DATA_BYTE, test_buffer[0]);
+    raw_payload[1] = test_buffer[0];
+  }
+
   void setup(){
     callback_invocation_counter = 0;
     I2CWriteSpy_Create();
@@ -122,11 +130,10 @@ TEST(UpdateValuesCallback, setCallbackPointerSetsCorrectPointer){
   POINTERS_EQUAL(fakeCallback, I2CWriteSpy_getCallbackPointer());
 }
 
+
 TEST(UpdateValuesCallback, CallbackIcrementsCallbackCounterAndSetsNextByte){
-  I2CWriteSpy_setCallbackPointer(testCallback);
-  data_t payload[] = {DISPLAY_CONTROL_DATA_BYTE, test_buffer[0]}; 
-  I2CWriteSpy_SetExpectedBytes(DISPLAY_CONTROL_DATA_BYTE, test_buffer[0]);
-  i2c_write_blocking(mock_i2c_address, DISPLAY_I2C_ADDRESS, payload, I2C_CHUNK_SIZE, false);
+  setupCallback();
+  i2c_write_blocking(mock_i2c_address, DISPLAY_I2C_ADDRESS, raw_payload, I2C_CHUNK_SIZE, false);
   data_t* next_bytes = I2CWriteSpy_GetBufferPtr();
 
   LONGS_EQUAL(1, callback_invocation_counter);
