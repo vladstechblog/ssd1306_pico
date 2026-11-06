@@ -2,7 +2,7 @@ extern "C"
 {
 #include "I2CWriteSpy.h"
 #include "SSD1306.h"
-}
+} //end of extern "C"
 
 #define TOTAL_BYTES_FITS_ON_SCREEN ((DISPLAY_HEIGHT * DISPLAY_WIDTH)/8)
 

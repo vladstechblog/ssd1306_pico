@@ -97,7 +97,6 @@ TEST_GROUP(MultibyteBuffer){
   }
 };
 
-
 TEST(MultibyteBuffer, SetExpectedBufferSizeGetterAndSetter){
   size_t expected_size = 5;
   I2CWriteSpy_SetExpectedBufferSize(expected_size);

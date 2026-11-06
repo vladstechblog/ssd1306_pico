@@ -6,7 +6,7 @@ extern "C"
 #include "SSD1306.h"
 #include "CppUTestExt/Mocksupport_c.h"
 
-}//ennd extern "C"
+} // end of extern "C"
 
 #include "CppUTest/TestHarness.h"
 #include "CppUTestExt/Mocksupport.h"

@@ -2,7 +2,7 @@ extern "C"
 {
 #include "I2CWriteSpy.h"
 #include "SSD1306.h"
-}
+} //end of extern "C"
 
 #include "CppUTest/TestHarness.h"
 
