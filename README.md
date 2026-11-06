@@ -6,7 +6,7 @@ Designed for 128x64 models.
 
 Font is not included, since it is not the responsiblitiy of the driver.
 
-See demo link below for a minimal presenter layer implementation.
+See demo link below for a minimal presenter layer implementation (including font).
 
 
 ## Using The Driver
@@ -22,6 +22,14 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(ssd1306_pico)
+```
+
+- then link agains the `displayDriver`
+
+```CMake
+add_library(App STATIC App.c)
+target_include_directories(App PUBLIC include)
+target_link_libraries(App PUBLIC Util hardware_i2c hardware_gpio displayDriver)
 ```
 
 See the [demo project](https://github.com/vladstechblog/ssd1306_pico_demo.git)
