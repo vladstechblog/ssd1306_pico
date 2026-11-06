@@ -19,12 +19,12 @@ TEST_GROUP(WriteDataBuffer){
     I2CWriteSpy_SetExpectedBuffer(test_buffer);
     I2CWriteSpy_SetExpectedBufferSize(test_buffer_size);
   }
+  
   void setup(){
     I2CWriteSpy_Create();
     SSD1306_Create(mock_i2c_address);
   }
   
-
   void teardown(){
     I2CWriteSpy_Destroy();
     SSD1306_Destroy();

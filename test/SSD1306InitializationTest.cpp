@@ -174,5 +174,3 @@ TEST(Initialization, DefaultInitialization){
 
   LONGS_EQUAL(expected_bytes_sent, SSD1306_defaultInitialization());
 }
-
-
