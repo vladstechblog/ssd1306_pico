@@ -1,6 +1,6 @@
 #ifndef FAKE_I2C_H
 #define FAKE_I2C_H
-#define I2C_CHUNK_SIZE 2
+#define I2C_PAYLOAD_SIZE 2
 
 #include <stdint.h>
 

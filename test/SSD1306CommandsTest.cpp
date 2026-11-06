@@ -28,15 +28,15 @@ TEST(SSD1306, Destroy){
   POINTERS_EQUAL(NULL, SSD1306_getDisplayAddress());
 }
 
-static void clear_i2c_command_bytes(command_t i2c_chunk[I2C_CHUNK_SIZE]){
+static void clear_i2c_command_bytes(command_t i2c_chunk[I2C_PAYLOAD_SIZE]){
   i2c_chunk[0] = DISPLAY_CONTROL_CMD_BYTE;
   i2c_chunk[1] = 0;
 }
 
 TEST_GROUP(Commands){
-  command_t command_buffer[I2C_CHUNK_SIZE]     = {DISPLAY_CONTROL_CMD_BYTE, 0x0};
-  setting_t setting_one_buffer[I2C_CHUNK_SIZE] = {DISPLAY_CONTROL_CMD_BYTE, 0x0};
-  setting_t setting_two_buffer[I2C_CHUNK_SIZE] = {DISPLAY_CONTROL_CMD_BYTE, 0x0};
+  command_t command_buffer[I2C_PAYLOAD_SIZE]     = {DISPLAY_CONTROL_CMD_BYTE, 0x0};
+  setting_t setting_one_buffer[I2C_PAYLOAD_SIZE] = {DISPLAY_CONTROL_CMD_BYTE, 0x0};
+  setting_t setting_two_buffer[I2C_PAYLOAD_SIZE] = {DISPLAY_CONTROL_CMD_BYTE, 0x0};
 
   void clear_buffers(){
     clear_i2c_command_bytes(command_buffer);

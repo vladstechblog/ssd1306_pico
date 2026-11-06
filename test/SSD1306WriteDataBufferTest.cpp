@@ -34,7 +34,7 @@ TEST_GROUP(WriteDataBuffer){
 TEST(WriteDataBuffer, SendDataBufferReturnsCorrectBytesSent){
   basicI2CSpyBufferSetup();
   int actual_return = SSD1306_sendDataBuffer(test_buffer, test_buffer_size);
-  LONGS_EQUAL(test_buffer_size * I2C_CHUNK_SIZE, actual_return);
+  LONGS_EQUAL(test_buffer_size * I2C_PAYLOAD_SIZE, actual_return);
 }
 
 TEST(WriteDataBuffer, NullBufferPtrReturnsPicoErrorInvliadArgument){

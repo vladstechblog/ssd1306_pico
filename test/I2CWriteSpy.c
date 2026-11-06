@@ -1,7 +1,7 @@
 #include <stdbool.h>
 #include "I2CWriteSpy.h"
 
-static command_t expected_i2c_payload[I2C_CHUNK_SIZE]; 
+static command_t expected_i2c_payload[I2C_PAYLOAD_SIZE]; 
 static int valid_invocation_counter = 0xff;
 static data_t* expected_buffer_ptr = (data_t*) 0xee;
 static size_t expected_buffer_size = 0;
@@ -14,7 +14,7 @@ void advance_i2c_expected_payload(void){
 }
 
 int i2c_write_blocking(i2c_inst_t* i2c, uint8_t addr, const uint8_t* src, size_t len, bool nostop){
-  if (len != I2C_CHUNK_SIZE)
+  if (len != I2C_PAYLOAD_SIZE)
     return BUFFER_LENGTH_MISMATCH;
    
   if(src[0] == expected_i2c_payload[0] && src[1] == expected_i2c_payload[1]){

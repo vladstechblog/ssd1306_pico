@@ -32,5 +32,5 @@ TEST(DisplayReset, ClearDisplayInvokesI2CWriteBlockingCorrectNumberOfTimes){
 
 TEST(DisplayReset, ReturnsCorrectBytesSent){
   I2CWriteSpy_SetExpectedI2CPayloadBytes(control_byte, value_byte);
-  LONGS_EQUAL(TOTAL_BYTES_FITS_ON_SCREEN * I2C_CHUNK_SIZE, SSD1306_clearDisplayMemory());
+  LONGS_EQUAL(TOTAL_BYTES_FITS_ON_SCREEN * I2C_PAYLOAD_SIZE, SSD1306_clearDisplayMemory());
 }

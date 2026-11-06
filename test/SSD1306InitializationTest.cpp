@@ -23,21 +23,21 @@ TEST_GROUP(Initialization){
   }
 
   int expectCommandWithoutSettings(command_t* command){ 
-    record_i2c_write_blocking_expectation(command, I2C_CHUNK_SIZE);
-    return I2C_CHUNK_SIZE;
+    record_i2c_write_blocking_expectation(command, I2C_PAYLOAD_SIZE);
+    return I2C_PAYLOAD_SIZE;
   }
 
   int expectCommandAndOneSetting(command_t* command, setting_t* setting){ 
-    record_i2c_write_blocking_expectation(command, I2C_CHUNK_SIZE);
-    record_i2c_write_blocking_expectation(setting, I2C_CHUNK_SIZE);
-    return I2C_CHUNK_SIZE * 2; 
+    record_i2c_write_blocking_expectation(command, I2C_PAYLOAD_SIZE);
+    record_i2c_write_blocking_expectation(setting, I2C_PAYLOAD_SIZE);
+    return I2C_PAYLOAD_SIZE * 2; 
   }
 
   int expectCommandAndTwoSettings(command_t* command, setting_t* one, setting_t* two){ 
-    record_i2c_write_blocking_expectation(command, I2C_CHUNK_SIZE);
-    record_i2c_write_blocking_expectation(one, I2C_CHUNK_SIZE);
-    record_i2c_write_blocking_expectation(two, I2C_CHUNK_SIZE);
-    return I2C_CHUNK_SIZE * 3;
+    record_i2c_write_blocking_expectation(command, I2C_PAYLOAD_SIZE);
+    record_i2c_write_blocking_expectation(one, I2C_PAYLOAD_SIZE);
+    record_i2c_write_blocking_expectation(two, I2C_PAYLOAD_SIZE);
+    return I2C_PAYLOAD_SIZE * 3;
   }
 
   void setup(){
