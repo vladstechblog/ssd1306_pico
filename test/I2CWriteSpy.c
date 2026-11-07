@@ -6,7 +6,7 @@ static int valid_invocation_counter = 0xff;
 static data_t* expected_buffer_ptr = (data_t*) 0xee;
 static size_t expected_buffer_size = 0;
 
-void advance_i2c_expected_payload(void){
+void set_next_expected_i2c_payload(void){
   if (valid_invocation_counter < expected_buffer_size){
     expected_i2c_payload[0] = DISPLAY_CONTROL_DATA_BYTE;
     expected_i2c_payload[1] = expected_buffer_ptr[valid_invocation_counter];
@@ -20,7 +20,7 @@ int i2c_write_blocking(i2c_inst_t* i2c, uint8_t addr, const uint8_t* src, size_t
   if(src[0] == expected_i2c_payload[0] && src[1] == expected_i2c_payload[1]){
     valid_invocation_counter++;
     if(expected_buffer_ptr != NULL)
-      advance_i2c_expected_payload(); 
+      set_next_expected_i2c_payload(); 
     return len;
   }
 
