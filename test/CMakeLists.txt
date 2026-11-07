@@ -19,14 +19,14 @@ target_link_libraries(
 )
 
 add_executable(
-  clearDisplayTestRunner
-  clearDisplayTestRunner.cpp
+  multibyteWriteTestRunner
+  multibyteWriteTestRunner.cpp
   I2CWriteSpy.c
   "${DRIVER_SOURCE_DIR}/${DRIVER_SOURCES}"
 )
-target_include_directories(clearDisplayTestRunner PUBLIC include ${DRIVER_INCLUDE_DIR})
+target_include_directories(multibyteWriteTestRunner PUBLIC include ${DRIVER_INCLUDE_DIR})
 target_link_libraries(
-  clearDisplayTestRunner
+  multibyteWriteTestRunner
   PUBLIC
   CppUTest
 )
